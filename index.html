@@ -55,16 +55,17 @@
             filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.3));
         }
         
-        .hero-section {
-            background: linear-gradient(rgba(44, 62, 45, 0.3), rgba(44, 62, 45, 0.4)), 
-                        url(https://images.unsplash.com/photo-1564257017209-46fc9efb165e?q=80&w=3024&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D) center/cover;
-            height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            position: relative;
-            padding-top: 3rem;
-        }
+       .hero-section {
+    background: linear-gradient(rgba(44, 62, 45, 0.3), rgba(44, 62, 45, 0.4)), 
+                url(https://images.unsplash.com/photo-1564257017209-46fc9efb165e?q=80&w=3024&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D) center/cover;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    padding-top: 2rem;
+    padding-bottom: 2rem;
+}
         
         #announcement-bar {
             transition: transform 0.3s ease;
@@ -197,7 +198,7 @@
 <body class="bg-stone-50">
 
     <!-- RUBAN D'ANNONCE -->
-    <div class="fixed w-full top-0 z-50 text-white py-3 px-6 shadow-lg" style="background: #991b1b;">
+<div class="w-full text-white py-3 px-6 shadow-lg" style="background: #991b1b;">
         <div class="max-w-7xl mx-auto flex items-center justify-center">
             <div class="flex items-center space-x-4">
                 <span class="text-2xl">🌱</span>
@@ -214,7 +215,7 @@
     </div>
 
     <!-- Navigation -->
-    <nav class="fixed w-full top-12 z-50 transition-all duration-300 bg-white/95 backdrop-blur-sm shadow-sm" id="navbar">
+<nav class="sticky top-0 w-full z-50 transition-all duration-300 bg-white/95 backdrop-blur-sm shadow-sm" id="navbar">
         <div class="max-w-7xl mx-auto px-6 py-4">
             <div class="flex justify-between items-center">
                 <div class="text-2xl font-bold text-stone-800" style="font-family: 'Cormorant Garamond', serif;">
