@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jeu de Personnalité Fruitée | Ferme Champs des Saveurs</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            color: #2c3e2d;
+            background: #faf8f4;
+            line-height: 1.7;
+        }
+
+        h1, h2, h3, h4 {
+            font-family: 'Cormorant Garamond', serif;
+            font-weight: 500;
+            line-height: 1.2;
+        }
+
+        /* ── Nav ── */
+        .btn-primary {
+            background: #4a6741;
+            color: white;
+            padding: 1rem 2.5rem;
+            border-radius: 0;
+            font-weight: 500;
+            letter-spacing: 0.5px;
+            transition: all 0.3s ease;
+            border: 2px solid #4a6741;
+            display: inline-block;
+        }
+        .btn-primary:hover { background: transparent; color: #4a6741; }
+
+        .nav-scrolled {
+            background: rgba(255,255,255,0.98);
+            box-shadow: 0 2px 20px rgba(0,0,0,0.08);
+        }
+
+        /* ── Hero ── */
+        .hero-jeu {
+            background: linear-gradient(135deg, #4a6741 0%, #2c3e2d 60%, #1a2a1b 100%);
+            min-height: 60vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+            padding: 6rem 1.5rem 4rem;
+        }
+
+        .hero-jeu::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background-image:
+                radial-gradient(circle at 20% 50%, rgba(139,157,131,0.15) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(212,63,107,0.1) 0%, transparent 40%);
+        }
+
+        /* Floating fruit decorations */
+        .fruit-float {
+            position: absolute;
+            opacity: 0.08;
+            font-size: 8rem;
+            animation: floatAnim 8s ease-in-out infinite;
+            pointer-events: none;
+        }
+        .fruit-float:nth-child(1) { top: 10%; left: 5%; animation-delay: 0s; }
+        .fruit-float:nth-child(2) { top: 60%; right: 5%; animation-delay: 2s; font-size: 6rem; }
+        .fruit-float:nth-child(3) { bottom: 10%; left: 20%; animation-delay: 4s; font-size: 5rem; }
+
+        @keyframes floatAnim {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(5deg); }
+        }
+
+        /* ── Fruits personnalité cards ── */
+        .fruit-card {
+            background: white;
+            border-radius: 0;
+            overflow: hidden;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+            transition: all 0.4s ease;
+            border-bottom: 4px solid transparent;
+        }
+        .fruit-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 16px 40px rgba(0,0,0,0.15);
+        }
+        .fruit-card.bleuet { border-bottom-color: #7ec8c8; }
+        .fruit-card.cerise { border-bottom-color: #f4a7b9; }
+        .fruit-card.pomme  { border-bottom-color: #f5e5a0; }
+        .fruit-card.raisin { border-bottom-color: #4a9e8e; }
+        .fruit-card.framboise { border-bottom-color: #d43f6b; }
+
+        .fruit-icon-circle {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.2rem;
+            margin: 0 auto 1rem;
+            flex-shrink: 0;
+        }
+
+        /* ── Steps ── */
+        .step-number {
+            width: 56px;
+            height: 56px;
+            border-radius: 50%;
+            background: #4a6741;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.6rem;
+            font-weight: 600;
+            flex-shrink: 0;
+        }
+
+        .step-connector {
+            width: 2px;
+            flex: 1;
+            background: linear-gradient(to bottom, #4a6741, #8b9d83);
+            min-height: 40px;
+            margin: 4px auto;
+        }
+
+        /* ── Station map section ── */
+        .map-container {
+            background: white;
+            box-shadow: 0 8px 40px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+
+        /* ── Game board section ── */
+        .board-container {
+            background: white;
+            box-shadow: 0 8px 40px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+
+        .img-reveal {
+            transition: transform 0.6s ease, box-shadow 0.4s ease;
+        }
+        .img-reveal:hover {
+            transform: scale(1.02);
+            box-shadow: 0 20px 60px rgba(0,0,0,0.2);
+        }
+
+        /* ── Badge saison ── */
+        .badge-saison {
+            display: inline-block;
+            background: #4a6741;
+            color: white;
+            font-size: 0.75rem;
+            font-weight: 600;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            padding: 0.35rem 1rem;
+        }
+
+        /* ── CTA section ── */
+        .cta-section {
+            background: linear-gradient(135deg, #2c3e2d 0%, #4a6741 100%);
+            position: relative;
+            overflow: hidden;
+        }
+        .cta-section::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(circle at 70% 50%, rgba(212,63,107,0.12) 0%, transparent 60%);
+        }
+
+        /* ── Accent line ── */
+        .accent-line {
+            width: 80px;
+            height: 3px;
+            background: #8b9d83;
+            margin: 0 auto 3rem;
+        }
+        .accent-line-left {
+            width: 80px;
+            height: 3px;
+            background: #8b9d83;
+            margin: 0 0 2rem;
+        }
+
+        /* ── Highlight box ── */
+        .highlight-box {
+            border-left: 4px solid #4a6741;
+            background: #f0f4ee;
+            padding: 1.5rem 2rem;
+        }
+
+        /* ── Scroll reveal ── */
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.7s ease, transform 0.7s ease;
+        }
+        .reveal.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        @media (max-width: 768px) {
+            .hero-jeu { min-height: 50vh; padding: 5rem 1.5rem 3rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Annonce -->
+    <div class="w-full text-white py-3 px-6 shadow-lg" style="background: #991b1b;">
+        <div class="max-w-7xl mx-auto flex items-center justify-center">
+            <p class="font-medium text-center">
+                <span class="inline-block mr-2">📍</span>
+                <span>❌ Fermé pour la saison</span>
+                <span class="mx-2">|</span>
+                <span>On se revoit à l'été 2026!</span>
+            </p>
+        </div>
+    </div>
+
+    <!-- Nav -->
+    <nav class="sticky top-0 w-full z-50 transition-all duration-300 bg-white/95 backdrop-blur-sm shadow-sm" id="navbar">
+        <div class="max-w-7xl mx-auto px-6 py-4">
+            <div class="flex justify-between items-center">
+                <a href="index.html" class="text-2xl font-bold text-stone-800" style="font-family: 'Cormorant Garamond', serif;">
+                    Ferme Champs des Saveurs
+                </a>
+                <div class="hidden md:flex space-x-8 items-center">
+                    <a href="index.html#produits" class="text-stone-600 hover:text-stone-900 transition">Nos fruits</a>
+                    <a href="index.html#mini-ferme" class="text-stone-600 hover:text-stone-900 transition">Mini-ferme</a>
+                    <a href="index.html#infos" class="text-stone-600 hover:text-stone-900 transition">Informations</a>
+                    <a href="#" class="text-stone-900 font-semibold border-b-2 border-stone-700 pb-0.5">Jeu agrotouristique</a>
+                    <a href="index.html#contact" class="btn-primary">Nous visiter</a>
+                </div>
+                <button class="md:hidden text-stone-800">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+                    </svg>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero -->
+    <section class="hero-jeu">
+        <span class="fruit-float">🫐</span>
+        <span class="fruit-float">🍒</span>
+        <span class="fruit-float">🍇</span>
+        <div class="text-center text-white relative z-10 max-w-3xl">
+            <span class="badge-saison mb-6 inline-block">Nouvelle activité · Été 2026</span>
+            <h1 class="text-5xl md:text-7xl mb-6 mt-4" style="font-weight: 300; letter-spacing: -0.5px;">
+                Découvrez votre<br>
+                <em style="font-style: italic; color: #d4a5b0;">personnalité fruitée</em>
+            </h1>
+            <p class="text-xl md:text-2xl font-light text-stone-300 max-w-xl mx-auto leading-relaxed">
+                Un jeu agrotouristique unique réparti sur 7 stations à travers notre terre.
+                Apprenez sur nos cultures tout en vous amusant en famille.
+            </p>
+        </div>
+    </section>
+
+    <!-- Intro -->
+    <section class="py-20 px-6 bg-white">
+        <div class="max-w-5xl mx-auto">
+            <div class="grid md:grid-cols-2 gap-16 items-center">
+                <div class="reveal">
+                    <h2 class="text-4xl md:text-5xl mb-4 text-stone-800">Une aventure à travers la ferme</h2>
+                    <div class="accent-line-left"></div>
+                    <p class="text-lg text-stone-600 mb-6 leading-relaxed">
+                        À chaque visite, vivez une expérience interactive unique. En parcourant nos champs et vergers,
+                        vous stopperez à <strong>7 stations numérotées</strong>, chacune cachant une vignette de jeu
+                        dans une petite boite aux lettres.
+                    </p>
+                    <p class="text-lg text-stone-600 mb-8 leading-relaxed">
+                        Chaque question vous invite à choisir le fruit qui vous représente le mieux dans une mise en situation.
+                        À la fin de votre parcours, venez nous révéler votre personnalité au kiosque d'accueil — et repartez
+                        avec la marque de votre passage à la ferme !
+                    </p>
+                    <div class="highlight-box">
+                        <p class="text-stone-700 font-medium">🌿 En prime, chaque station vous fait découvrir nos cultures : framboises, cerises, bleuets, raisins et nos futurs pommiers.</p>
+                    </div>
+                </div>
+                <div class="reveal" style="transition-delay: 0.2s;">
+                    <img src="Activite_.jpeg"
+                         alt="Carte des stations de jeu à la Ferme Champs des Saveurs"
+                         class="w-full shadow-xl img-reveal">
+                    <p class="text-sm text-stone-500 mt-3 text-center italic">La carte des 7 stations réparties sur la terre</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Comment jouer -->
+    <section class="py-20 px-6 bg-stone-100">
+        <div class="max-w-4xl mx-auto">
+            <div class="text-center mb-16 reveal">
+                <h2 class="text-4xl md:text-5xl text-stone-800 mb-3">Comment jouer ?</h2>
+                <div class="accent-line"></div>
+            </div>
+
+            <div class="space-y-0">
+                <!-- Step 1 -->
+                <div class="flex gap-6 items-start reveal">
+                    <div class="flex flex-col items-center">
+                        <div class="step-number">1</div>
+                        <div class="step-connector"></div>
+                    </div>
+                    <div class="pb-10 pt-2">
+                        <h3 class="text-2xl text-stone-800 mb-2">Récupérez votre planche de jeu</h3>
+                        <p class="text-stone-600">À l'accueil, recevez votre planche de jeu recto-verso et une pochette d'autocollants représentant les 5 fruits de la ferme.</p>
+                    </div>
+                </div>
+                <!-- Step 2 -->
+                <div class="flex gap-6 items-start reveal" style="transition-delay:0.1s;">
+                    <div class="flex flex-col items-center">
+                        <div class="step-number">2</div>
+                        <div class="step-connector"></div>
+                    </div>
+                    <div class="pb-10 pt-2">
+                        <h3 class="text-2xl text-stone-800 mb-2">Parcourez les 7 stations</h3>
+                        <p class="text-stone-600">Suivez la carte et découvrez les stations numérotées à travers champs. Dans chaque boite aux lettres, une vignette de mise en situation vous attend.</p>
+                    </div>
+                </div>
+                <!-- Step 3 -->
+                <div class="flex gap-6 items-start reveal" style="transition-delay:0.2s;">
+                    <div class="flex flex-col items-center">
+                        <div class="step-number">3</div>
+                        <div class="step-connector"></div>
+                    </div>
+                    <div class="pb-10 pt-2">
+                        <h3 class="text-2xl text-stone-800 mb-2">Choisissez votre fruit</h3>
+                        <p class="text-stone-600">Lisez la mise en situation et sélectionnez le fruit qui vous représente le mieux parmi les 5 choix. Apposez l'autocollant correspondant sur votre planche.</p>
+                    </div>
+                </div>
+                <!-- Step 4 -->
+                <div class="flex gap-6 items-start reveal" style="transition-delay:0.3s;">
+                    <div class="flex flex-col items-center">
+                        <div class="step-number">4</div>
+                        <div class="step-connector"></div>
+                    </div>
+                    <div class="pb-10 pt-2">
+                        <h3 class="text-2xl text-stone-800 mb-2">Faites le décompte</h3>
+                        <p class="text-stone-600">Après les 7 stations, comptez quel fruit revient le plus souvent sur votre planche. Ce fruit révèle votre personnalité fruitée !</p>
+                    </div>
+                </div>
+                <!-- Step 5 -->
+                <div class="flex gap-6 items-start reveal" style="transition-delay:0.4s;">
+                    <div class="flex flex-col items-center">
+                        <div class="step-number">5</div>
+                    </div>
+                    <div class="pt-2">
+                        <h3 class="text-2xl text-stone-800 mb-2">Venez nous le révéler !</h3>
+                        <p class="text-stone-600">Retournez au kiosque d'accueil pour découvrir ce que votre personnalité fruitée dit de vous — et laissez la marque de votre passage à la ferme.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- La planche de jeu -->
+    <section class="py-20 px-6 bg-white">
+        <div class="max-w-5xl mx-auto">
+            <div class="text-center mb-16 reveal">
+                <h2 class="text-4xl md:text-5xl text-stone-800 mb-3">La planche de jeu</h2>
+                <div class="accent-line"></div>
+                <p class="text-xl text-stone-600 max-w-xl mx-auto">7 questions, 5 fruits, une personnalité à découvrir</p>
+            </div>
+            <div class="grid md:grid-cols-2 gap-12 items-center">
+                <div class="reveal">
+                    <img src="Planche_de_jeu.jpeg"
+                         alt="Planche de jeu Découvrez votre personnalité fruitée"
+                         class="w-full shadow-xl img-reveal">
+                    <p class="text-sm text-stone-500 mt-3 text-center italic">La planche de jeu recto — 7 lignes, une par station</p>
+                </div>
+                <div class="reveal" style="transition-delay:0.2s;">
+                    <h3 class="text-3xl text-stone-800 mb-4">5 personnalités fruitées</h3>
+                    <p class="text-stone-600 mb-8 leading-relaxed">
+                        Chaque fruit de la ferme représente un profil de personnalité différent.
+                        À chaque station, identifiez-vous à l'un d'eux et apposez son autocollant sur votre planche.
+                    </p>
+                    <div class="space-y-3">
+
+                        <div style="display:flex; align-items:center; gap:1rem; padding:0.875rem 1rem; background:#f8f8f6; border-left:4px solid #7ec8c8;">
+                            <div style="width:48px; height:48px; min-width:48px; border-radius:50%; background:#d4f0f0; display:flex; align-items:center; justify-content:center; font-size:1.5rem; line-height:1;">🫐</div>
+                            <div>
+                                <div style="font-weight:600; color:#1c1917;">Le Bleuet</div>
+                                <div style="font-size:0.875rem; color:#78716c;">Discret, profond, plein de sagesse</div>
+                            </div>
+                        </div>
+
+                        <div style="display:flex; align-items:center; gap:1rem; padding:0.875rem 1rem; background:#f8f8f6; border-left:4px solid #f4a7b9;">
+                            <div style="width:48px; height:48px; min-width:48px; border-radius:50%; background:#fde8ef; display:flex; align-items:center; justify-content:center; font-size:1.5rem; line-height:1;">🍒</div>
+                            <div>
+                                <div style="font-weight:600; color:#1c1917;">La Cerise</div>
+                                <div style="font-size:0.875rem; color:#78716c;">Joyeux, pétillant, toujours en duo</div>
+                            </div>
+                        </div>
+
+                        <div style="display:flex; align-items:center; gap:1rem; padding:0.875rem 1rem; background:#f8f8f6; border-left:4px solid #ddd080;">
+                            <div style="width:48px; height:48px; min-width:48px; border-radius:50%; background:#fdf8dc; display:flex; align-items:center; justify-content:center; font-size:1.5rem; line-height:1;">🍎</div>
+                            <div>
+                                <div style="font-weight:600; color:#1c1917;">La Pomme</div>
+                                <div style="font-size:0.875rem; color:#78716c;">Classique, fiable, intemporel</div>
+                            </div>
+                        </div>
+
+                        <div style="display:flex; align-items:center; gap:1rem; padding:0.875rem 1rem; background:#f8f8f6; border-left:4px solid #4a9e8e;">
+                            <div style="width:48px; height:48px; min-width:48px; border-radius:50%; background:#d4ece8; display:flex; align-items:center; justify-content:center; font-size:1.5rem; line-height:1;">🍇</div>
+                            <div>
+                                <div style="font-weight:600; color:#1c1917;">Le Raisin</div>
+                                <div style="font-size:0.875rem; color:#78716c;">Rassembleur, généreux, en grappe</div>
+                            </div>
+                        </div>
+
+                        <div style="display:flex; align-items:center; gap:1rem; padding:0.875rem 1rem; background:#f8f8f6; border-left:4px solid #d43f6b;">
+                            <div style="width:48px; height:48px; min-width:48px; border-radius:50%; background:#d43f6b; display:flex; align-items:center; justify-content:center; flex-shrink:0;">
+                                <div style="width:22px; height:22px; border-radius:50%; background:rgba(255,255,255,0.25); border:2px solid rgba(255,255,255,0.6);"></div>
+                            </div>
+                            <div>
+                                <div style="font-weight:600; color:#1c1917;">La Framboise</div>
+                                <div style="font-size:0.875rem; color:#78716c;">Passionné, intense, inoubliable</div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="cta-section py-24 px-6">
+        <div class="max-w-3xl mx-auto text-center text-white relative z-10 reveal">
+            <h2 class="text-4xl md:text-6xl mb-6" style="font-weight: 300;">
+                Prêt à découvrir votre<br>
+                <em style="font-style: italic; color: #d4a5b0;">personnalité fruitée ?</em>
+            </h2>
+            <p class="text-xl text-stone-300 mb-10 font-light max-w-lg mx-auto">
+                Activité pour toute la famille, petits et grands, dès l'été 2026.
+            </p>
+            <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                <a href="index.html#contact" class="btn-primary">Planifier votre visite</a>
+                <a href="https://www.facebook.com/profile.php?id=100064604144668"
+                   target="_blank" rel="noopener noreferrer"
+                   class="inline-block border-2 border-white text-white px-10 py-4 font-medium hover:bg-white hover:text-stone-800 transition-all">
+                    Suivre les nouveautés
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-stone-900 text-white py-12 px-6">
+        <div class="max-w-6xl mx-auto text-center">
+            <div class="text-3xl mb-4" style="font-family: 'Cormorant Garamond', serif;">
+                Ferme Champs des Saveurs
+            </div>
+            <p class="text-stone-400 mb-4">Autocueillette de petits fruits à Neuville, Québec</p>
+            <a href="index.html" class="text-stone-500 text-sm hover:text-stone-300 transition">← Retour à l'accueil</a>
+            <div class="text-stone-600 text-sm mt-4">
+                © 2026 Ferme Champs des Saveurs. Tous droits réservés. | Valérie Fortier & Jonathan Turcotte
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Navbar scroll
+        window.addEventListener('scroll', () => {
+            const navbar = document.getElementById('navbar');
+            if (window.scrollY > 100) navbar.classList.add('nav-scrolled');
+            else navbar.classList.remove('nav-scrolled');
+        });
+
+        // Scroll reveal
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(e => {
+                if (e.isIntersecting) e.target.classList.add('visible');
+            });
+        }, { threshold: 0.15 });
+
+        document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+    </script>
+</body>
+</html>
