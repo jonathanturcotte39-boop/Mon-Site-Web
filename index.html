@@ -1,3 +1,6 @@
+Index · HTML
+Copier
+
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -193,12 +196,39 @@
             transform: scale(1.05);
             box-shadow: 0 10px 30px rgba(0,0,0,0.2);
         }
+
+        /* Menu mobile */
+        #mobile-menu {
+            display: none;
+            flex-direction: column;
+            background: white;
+            border-top: 1px solid #e7e5e4;
+            padding: 1rem 1.5rem 1.5rem;
+            gap: 1rem;
+        }
+        #mobile-menu.open { display: flex; }
+        #mobile-menu a {
+            color: #44403c;
+            font-size: 1rem;
+            padding: 0.5rem 0;
+            border-bottom: 1px solid #f5f5f4;
+            text-decoration: none;
+        }
+        #mobile-menu a.menu-cta {
+            border-bottom: none;
+            margin-top: 0.5rem;
+            background: #4a6741;
+            color: white;
+            padding: 0.75rem 1rem;
+            text-align: center;
+            font-weight: 500;
+        }
     </style>
 </head>
 <body class="bg-stone-50">
 
     <!-- RUBAN D'ANNONCE -->
-<div class="w-full text-white py-3 px-6 shadow-lg" style="background: #991b1b;">
+    <div class="w-full text-white py-3 px-6 shadow-lg" style="background: #991b1b;">
         <div class="max-w-7xl mx-auto flex items-center justify-center">
             <div class="flex items-center space-x-4">
                 <span class="text-2xl">🌱</span>
@@ -215,7 +245,7 @@
     </div>
 
     <!-- Navigation -->
-<nav class="sticky top-0 w-full z-50 transition-all duration-300 bg-white/95 backdrop-blur-sm shadow-sm" id="navbar">
+    <nav class="sticky top-0 w-full z-50 transition-all duration-300 bg-white/95 backdrop-blur-sm shadow-sm" id="navbar">
         <div class="max-w-7xl mx-auto px-6 py-4">
             <div class="flex justify-between items-center">
                 <div class="text-2xl font-bold text-stone-800" style="font-family: 'Cormorant Garamond', serif;">
@@ -229,12 +259,24 @@
                     <a href="jeu.html" class="text-stone-600 hover:text-stone-900 transition">Jeu agrotouristique</a>
                     <a href="#contact" class="btn-primary inline-block">Nous visiter</a>
                 </div>
-                <button class="md:hidden text-stone-800">
-                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <button id="hamburger" class="md:hidden text-stone-800" onclick="toggleMenu()">
+                    <svg id="icon-open" class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                    </svg>
+                    <svg id="icon-close" class="w-6 h-6 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
                     </svg>
                 </button>
             </div>
+        </div>
+        <!-- Menu mobile déroulant -->
+        <div id="mobile-menu">
+            <a href="#accueil">Accueil</a>
+            <a href="#produits">Nos fruits</a>
+            <a href="#mini-ferme">Mini-ferme</a>
+            <a href="#infos">Informations</a>
+            <a href="jeu.html">Jeu agrotouristique</a>
+            <a href="#contact" class="menu-cta">Nous visiter</a>
         </div>
     </nav>
 
@@ -249,9 +291,10 @@
                 Framboises, cerises et bleuets avec vue sur le fleuve Saint-Laurent
             </p>
             <div class="flex flex-col sm:flex-row gap-4 justify-center">
-                <a href="#produits" class="btn-secondary inline-block">Découvrir nos fruits</a>
-                <a href="#contact" class="btn-primary inline-block">Planifier votre visite</a>
-            </div>
+    <a href="#produits" class="btn-secondary inline-block">Découvrir nos fruits</a>
+    <a href="jeu.html" class="inline-block" style="background: #d43f6b; color: white; padding: 1rem 2.5rem; border: 2px solid #d43f6b; font-weight: 500; letter-spacing: 0.5px; transition: all 0.3s ease;">Jeu agrotouristique 🎯</a>
+    <a href="#contact" class="btn-primary inline-block">Planifier votre visite</a>
+</div>
         </div>
         <div class="absolute bottom-10 left-1/2 transform -translate-x-1/2 text-white animate-bounce">
             <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -525,6 +568,24 @@
     </footer>
 
     <script>
+        // Menu mobile
+        function toggleMenu() {
+            const menu = document.getElementById('mobile-menu');
+            const iconOpen = document.getElementById('icon-open');
+            const iconClose = document.getElementById('icon-close');
+            menu.classList.toggle('open');
+            iconOpen.classList.toggle('hidden');
+            iconClose.classList.toggle('hidden');
+        }
+        // Ferme le menu si on clique sur un lien
+        document.querySelectorAll('#mobile-menu a').forEach(link => {
+            link.addEventListener('click', () => {
+                document.getElementById('mobile-menu').classList.remove('open');
+                document.getElementById('icon-open').classList.remove('hidden');
+                document.getElementById('icon-close').classList.add('hidden');
+            });
+        });
+
         // Navbar scroll effect
         window.addEventListener('scroll', () => {
             const navbar = document.getElementById('navbar');
