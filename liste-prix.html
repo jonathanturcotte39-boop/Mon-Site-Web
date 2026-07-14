@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Liste de prix | Ferme Champs des Saveurs</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+    <meta property="og:title" content="Liste de prix | Ferme Champs des Saveurs">
+    <meta property="og:description" content="Prix de l'autocueillette de framboises, cerises et bleuets à Neuville, Québec. Contenants fournis.">
+    <meta property="og:image" content="https://www.fermechampsdessaveurs.com/IMG_0968.jpg">
+    <meta property="og:url" content="https://www.fermechampsdessaveurs.com/liste-prix.html">
+    <meta property="og:type" content="website">
+
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            color: #2c3e2d;
+            background: #faf8f4;
+            line-height: 1.7;
+        }
+
+        h1, h2, h3, h4 {
+            font-family: 'Cormorant Garamond', serif;
+            font-weight: 500;
+            line-height: 1.2;
+        }
+
+        .btn-primary {
+            background: #4a6741;
+            color: white;
+            padding: 1rem 2.5rem;
+            border-radius: 0;
+            font-weight: 500;
+            letter-spacing: 0.5px;
+            transition: all 0.3s ease;
+            border: 2px solid #4a6741;
+            display: inline-block;
+        }
+        .btn-primary:hover { background: transparent; color: #4a6741; }
+
+        .nav-scrolled {
+            background: rgba(255,255,255,0.98);
+            box-shadow: 0 2px 20px rgba(0,0,0,0.08);
+        }
+
+        /* Hero */
+        .hero-prix {
+            background: linear-gradient(135deg, #4a6741 0%, #2c3e2d 60%, #1a2a1b 100%);
+            min-height: 42vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+            padding: 6rem 1.5rem 4rem;
+        }
+        .hero-prix::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background-image:
+                radial-gradient(circle at 20% 50%, rgba(139,157,131,0.18) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(212,63,107,0.12) 0%, transparent 40%);
+        }
+        .fruit-float {
+            position: absolute;
+            opacity: 0.08;
+            font-size: 8rem;
+            animation: floatAnim 8s ease-in-out infinite;
+            pointer-events: none;
+        }
+        .fruit-float:nth-child(1) { top: 8%; left: 6%; animation-delay: 0s; }
+        .fruit-float:nth-child(2) { top: 55%; right: 6%; animation-delay: 2s; font-size: 6rem; }
+        .fruit-float:nth-child(3) { bottom: 8%; left: 22%; animation-delay: 4s; font-size: 5rem; }
+        @keyframes floatAnim {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(5deg); }
+        }
+
+        .accent-line {
+            width: 80px;
+            height: 3px;
+            background: #8b9d83;
+            margin: 0 auto 2.5rem;
+        }
+
+        /* Carte de prix */
+        .price-card {
+            background: white;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+            transition: all 0.4s ease;
+            border-bottom: 4px solid transparent;
+        }
+        .price-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 16px 40px rgba(0,0,0,0.15);
+            border-bottom-color: #4a6741;
+        }
+        .price-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            padding: 0.9rem 0;
+            border-bottom: 1px solid #f0ede7;
+        }
+        .price-row:last-child { border-bottom: none; }
+        .price-amount {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.75rem;
+            font-weight: 600;
+            color: #4a6741;
+            white-space: nowrap;
+        }
+
+        /* Menu mobile */
+        #mobile-menu {
+            display: none;
+            flex-direction: column;
+            background: white;
+            border-top: 1px solid #e7e5e4;
+            padding: 1rem 1.5rem 1.5rem;
+            gap: 1rem;
+        }
+        #mobile-menu.open { display: flex; }
+        #mobile-menu a {
+            color: #44403c;
+            font-size: 1rem;
+            padding: 0.5rem 0;
+            border-bottom: 1px solid #f5f5f4;
+            text-decoration: none;
+        }
+        #mobile-menu a.menu-cta {
+            border-bottom: none;
+            margin-top: 0.5rem;
+            background: #4a6741;
+            color: white;
+            padding: 0.75rem 1rem;
+            text-align: center;
+            font-weight: 500;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Navigation -->
+    <nav class="sticky top-0 w-full z-50 transition-all duration-300 bg-white/95 backdrop-blur-sm shadow-sm" id="navbar">
+        <div class="max-w-7xl mx-auto px-6 py-4">
+            <div class="flex justify-between items-center">
+                <a href="index.html" class="text-2xl font-bold text-stone-800" style="font-family: 'Cormorant Garamond', serif;">
+                    Ferme Champs des Saveurs
+                </a>
+                <div class="hidden md:flex space-x-8 items-center">
+                    <a href="index.html#produits" class="text-stone-600 hover:text-stone-900 transition">Nos fruits</a>
+                    <a href="index.html#mini-ferme" class="text-stone-600 hover:text-stone-900 transition">Mini-ferme</a>
+                    <a href="index.html#infos" class="text-stone-600 hover:text-stone-900 transition">Informations</a>
+                    <a href="#" class="text-stone-900 font-semibold border-b-2 border-stone-700 pb-0.5">Liste de prix</a>
+                    <a href="jeu.html" class="text-stone-600 hover:text-stone-900 transition">Jeu agrotouristique</a>
+                    <a href="index.html#contact" class="btn-primary">Nous visiter</a>
+                </div>
+                <button id="hamburger" class="md:hidden text-stone-800" onclick="toggleMenu()">
+                    <svg id="icon-open" class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+                    </svg>
+                    <svg id="icon-close" class="w-6 h-6 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <!-- Menu mobile déroulant -->
+        <div id="mobile-menu">
+            <a href="index.html#produits">Nos fruits</a>
+            <a href="index.html#mini-ferme">Mini-ferme</a>
+            <a href="index.html#infos">Informations</a>
+            <a href="#">Liste de prix</a>
+            <a href="jeu.html">Jeu agrotouristique</a>
+            <a href="index.html#contact" class="menu-cta">Nous visiter</a>
+        </div>
+    </nav>
+
+    <!-- Hero -->
+    <section class="hero-prix">
+        <span class="fruit-float">🫐</span>
+        <span class="fruit-float">🍒</span>
+        <span class="fruit-float">🍓</span>
+        <div class="relative text-center text-white max-w-3xl">
+            <h1 class="text-5xl md:text-6xl mb-4" style="font-weight: 400;">Liste de prix</h1>
+            <p class="text-xl md:text-2xl font-light text-stone-100">
+            
+            </p>
+        </div>
+    </section>
+
+    <!-- Prix -->
+    <section class="py-20 px-6">
+        <div class="max-w-4xl mx-auto">
+
+            <div class="text-center mb-12">
+                <h2 class="text-4xl md:text-5xl text-stone-800 mb-2">Nos tarifs en autocueillette</h2>
+                <div class="accent-line"></div>
+                <p class="text-lg text-stone-600 max-w-2xl mx-auto">
+                    Pour une question de simplicité, nous fournissons les contenants !
+                    Payez selon le format rempli, directement au kiosque.
+                </p>
+            </div>
+
+            <div class="grid md:grid-cols-2 gap-8">
+
+                <!-- Format 1 L -->
+                <div class="price-card p-8">
+                    <div class="flex items-center gap-3 mb-6">
+                        <div class="w-12 h-12 rounded-full flex items-center justify-center text-2xl" style="background:#eef2ec;">🧺</div>
+                        <h3 class="text-3xl text-stone-800">Format 1 litre</h3>
+                    </div>
+                    <div class="price-row">
+                        <span class="text-lg text-stone-700">🫐 Bleuets</span>
+                        <span class="price-amount">8,00&nbsp;$</span>
+                    </div>
+                    <div class="price-row">
+                        <span class="text-lg text-stone-700">Framboises</span>
+                        <span class="price-amount">8,00&nbsp;$</span>
+                    </div>
+                    <div class="price-row">
+                        <span class="text-lg text-stone-700">🍒 Cerises</span>
+                        <span class="price-amount">8,75&nbsp;$</span>
+                    </div>
+                </div>
+
+                <!-- Format 2 L -->
+                <div class="price-card p-8">
+                    <div class="flex items-center gap-3 mb-6">
+                        <div class="w-12 h-12 rounded-full flex items-center justify-center text-2xl" style="background:#eef2ec;">🧺</div>
+                        <h3 class="text-3xl text-stone-800">Format 2 litres</h3>
+                    </div>
+                    <div class="price-row">
+                        <span class="text-lg text-stone-700">🫐 Bleuets</span>
+                        <span class="price-amount">15,00&nbsp;$</span>
+                    </div>
+                     <div class="price-row">
+                        <span class="text-lg text-stone-700">Framboises</span>
+                        <span class="price-amount">15,00&nbsp;$</span>
+                    </div>
+                    <div class="price-row">
+                        <span class="text-lg text-stone-700">🍒 Cerises</span>
+                        <span class="price-amount">17,00&nbsp;$</span>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Note paiement -->
+            <div class="mt-12 bg-white shadow-md p-8 text-center">
+                <h3 class="text-2xl text-stone-800 mb-3">💰 Modes de paiement</h3>
+                <p class="text-stone-600">
+                    Paiement comptant, Interac ou carte de crédit accepté au kiosque.<br>
+                    Les prix peuvent varier en cours de saison selon la disponibilité des fruits.
+                </p>
+            </div>
+
+            <div class="text-center mt-12">
+                <a href="index.html#contact" class="btn-primary">Planifier votre visite</a>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-stone-900 text-white py-12 px-6">
+        <div class="max-w-6xl mx-auto text-center">
+            <div class="text-3xl mb-4" style="font-family: 'Cormorant Garamond', serif;">
+                Ferme Champs des Saveurs
+            </div>
+            <p class="text-stone-400 mb-6">
+                Autocueillette de petits fruits à Neuville, Québec
+            </p>
+            <a href="index.html" class="text-stone-400 text-sm hover:text-stone-200 transition">← Retour à l'accueil</a>
+            <div class="text-stone-500 text-sm mt-6">
+                © 2026 Ferme Champs des Saveurs. Tous droits réservés. | Valérie Fortier &amp; Jonathan Turcotte
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        function toggleMenu() {
+            const menu = document.getElementById('mobile-menu');
+            const iconOpen = document.getElementById('icon-open');
+            const iconClose = document.getElementById('icon-close');
+            menu.classList.toggle('open');
+            iconOpen.classList.toggle('hidden');
+            iconClose.classList.toggle('hidden');
+        }
+        document.querySelectorAll('#mobile-menu a').forEach(link => {
+            link.addEventListener('click', () => {
+                document.getElementById('mobile-menu').classList.remove('open');
+                document.getElementById('icon-open').classList.remove('hidden');
+                document.getElementById('icon-close').classList.add('hidden');
+            });
+        });
+        window.addEventListener('scroll', () => {
+            const navbar = document.getElementById('navbar');
+            if (window.scrollY > 100) navbar.classList.add('nav-scrolled');
+            else navbar.classList.remove('nav-scrolled');
+        });
+    </script>
+
+</body>
+</html>
